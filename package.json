@@ -1,0 +1,26 @@
+{
+  "name": "linked-list",
+  "version": "0.0.1",
+  "description": "Example of a linked list in TypeScript.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jasmine linked-list.spec.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/agonza40/linked-list.git"
+  },
+  "keywords": [
+    "example",
+    "typescript"
+  ],
+  "author": "Andy Gonzalez",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/agonza40/linked-list/issues"
+  },
+  "homepage": "https://github.com/agonza40/linked-list#readme",
+  "devDependencies": {
+    "jasmine": "^2.8.0"
+  }
+}
