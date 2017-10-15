@@ -4,7 +4,7 @@
   "description": "Example of a linked list in TypeScript.",
   "main": "index.js",
   "scripts": {
-    "test": "jasmine linked-list.spec.js"
+    "test": "node_modules/.bin/jasmine"
   },
   "repository": {
     "type": "git",

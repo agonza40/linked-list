@@ -1,25 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var LinkedList = /** @class */ (function () {
-    function LinkedList(head, rest) {
-        if (rest) {
-            this._head = {
-                value: head,
-                next: rest._head
-            };
-            this.length = rest.length + 1;
-        }
-        else if (head === null) {
-            this._head = null;
-            this.length = 0;
-        }
-        else {
-            this._head = {
-                value: head,
-                next: null
-            };
-            this.length = 1;
-        }
+    function LinkedList(head, length) {
+        this._head = head;
+        this.length = length;
     }
     Object.defineProperty(LinkedList.prototype, "head", {
         get: function () {
@@ -45,12 +29,97 @@ var LinkedList = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    LinkedList.fromArray = function (items) {
+        function recurse(index) {
+            if (index >= items.length) {
+                return null;
+            }
+            return {
+                value: items[index],
+                next: recurse(index + 1)
+            };
+        }
+        return new LinkedList(recurse(0), items.length);
+    };
+    LinkedList.from = function () {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i] = arguments[_i];
+        }
+        return LinkedList.fromArray(args);
+    };
     LinkedList.prototype.empty = function () {
         return this._head === null;
     };
     LinkedList.prototype.forEach = function (fn) {
+        function recurse(node) {
+            if (node) {
+                fn(node.value);
+                recurse(node.next);
+            }
+        }
+        recurse(this._head);
     };
     LinkedList.prototype.map = function (fn) {
+        function recurse(node) {
+            if (node === null) {
+                return null;
+            }
+            return {
+                value: fn(node.value),
+                next: recurse(node.next)
+            };
+        }
+        return new LinkedList(recurse(this._head), this.length);
+    };
+    LinkedList.prototype.reduce = function (fn, init) {
+        function recurse(memo, node) {
+            if (node === null) {
+                return memo;
+            }
+            return recurse(fn(memo, node.value), node.next);
+        }
+        return recurse(init, this._head);
+    };
+    LinkedList.cons = function (item, rest) {
+        return new LinkedList({
+            value: item,
+            next: rest._head
+        }, rest.length + 1);
+    };
+    LinkedList.prototype.prepend = function (item) {
+        return LinkedList.cons(item, this);
+    };
+    LinkedList.prototype.append = function (item) {
+        function recurse(node, end) {
+            if (node === null) {
+                return {
+                    value: end,
+                    next: null
+                };
+            }
+            return {
+                value: node.value,
+                next: node.next
+            };
+        }
+        return new LinkedList(recurse(this._head, item), this.length);
+    };
+    LinkedList.prototype.reverse = function () {
+        function recurse(head, next) {
+            if (head === null) {
+                return next;
+            }
+            return recurse(head.next, {
+                value: head.value,
+                next: next
+            });
+        }
+        var head = this._head;
+        if (head === null) {
+            return this;
+        }
+        return new LinkedList(recurse(head, null), this.length);
     };
     return LinkedList;
 }());
