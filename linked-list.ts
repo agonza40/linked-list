@@ -1,11 +1,13 @@
 export interface ListNode <T> {
     readonly value:T
-    readonly next:ListNode<T> | null;
+    readonly next:MaybeNode<T>;
 }
+
+type MaybeNode <T> = ListNode<T> | null;
 
 export class LinkedList <T> {
     readonly length:number;
-    private _head: ListNode<T> | null
+    private _head: MaybeNode<T>
     get head (): T  | null{
         let node = this._head;
         if (node !== null) {
@@ -15,7 +17,7 @@ export class LinkedList <T> {
     }
 
     get tail (): T | null {
-        let node: ListNode<T> | null = this._head;
+        let node: MaybeNode<T> = this._head;
         let val = null;
         while (node !== null) {
             val = node.value
@@ -25,7 +27,7 @@ export class LinkedList <T> {
     }
 
     public static toArray <T>(list:LinkedList<T>): T[] {
-        function recurse (node:ListNode<T> | null, arr:T[]):T[] {
+        function recurse (node:MaybeNode<T>, arr:T[]):T[] {
             if (node === null) {
                 return arr
             }
@@ -39,7 +41,7 @@ export class LinkedList <T> {
     }
 
     public static fromArray <T> (items:T[]):LinkedList<T> {
-        function recurse (index:number):ListNode<T> | null {
+        function recurse (index:number):MaybeNode<T> {
             if (index >= items.length) {
                 return null;
             }
@@ -55,7 +57,7 @@ export class LinkedList <T> {
         return LinkedList.fromArray(args);
     }
 
-    private constructor (head:ListNode<T> | null, length:number) {
+    private constructor (head:MaybeNode<T>, length:number) {
         this._head = head;
         this.length = length;
     }
@@ -65,7 +67,7 @@ export class LinkedList <T> {
     }
 
     forEach (fn:(i:T)=>void): void {
-        function recurse (node:ListNode<T> | null) {
+        function recurse (node:MaybeNode<T>) {
             if (node) {
                 fn(node.value)
                 recurse(node.next)
@@ -75,7 +77,7 @@ export class LinkedList <T> {
     }
 
     map<U> (fn:(i:T)=>U):LinkedList<U> {
-        function recurse (node:ListNode<T> | null): ListNode <U> | null {
+        function recurse (node:MaybeNode<T>):MaybeNode<U> {
             if (node === null) {
                 return null
             }
@@ -88,7 +90,7 @@ export class LinkedList <T> {
         return new LinkedList(recurse(this._head), this.length)
     }
     reduce <U> (fn:(memo:U, val:T)=>U, init:U): U {
-        function recurse (memo:U, node:ListNode<T> | null): U {
+        function recurse (memo:U, node:MaybeNode<T>): U {
             if (node === null) {
                 return memo;
             }
@@ -111,7 +113,7 @@ export class LinkedList <T> {
     }
 
     append (item: T):LinkedList<T> {
-        function recurse (node:ListNode<T> | null, end:T) {
+        function recurse (node:MaybeNode<T>, end:T) {
             if (node === null) {
                 return {
                     value: end,
@@ -128,7 +130,7 @@ export class LinkedList <T> {
     }
 
     reverse () {
-        function recurse (head: ListNode<T> | null, next: ListNode<T> | null): ListNode<T> | null {
+        function recurse (head: MaybeNode<T>, next: MaybeNode<T>):MaybeNode<T> {
             if (head === null) {
                 return next
             }
