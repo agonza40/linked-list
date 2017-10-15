@@ -2,8 +2,8 @@ import {LinkedList} from '../linked-list'
 
 describe('linked list', function () {
     describe('from', function () {
-        it('constructs an empty list', function () {
-            let list = LinkedList.from(null)
+        it('constructs an empty list from empty argument list', function () {
+            let list = LinkedList.from()
             expect(list.empty()).toBe(true)
         })
         it('constructs a list with 1 element', function () {
@@ -33,6 +33,18 @@ describe('linked list', function () {
             const list = LinkedList.fromArray([1, 2, 3, 4, 5])
             expect(list.empty()).toBe(false)
             expect(list.length).toBe(5)
+        })
+    })
+
+    describe('toArray', function () {
+        it('returns an empty array', function () {
+            const list = LinkedList.from();
+            expect(list.toArray()).toEqual([])
+        })
+
+        it('constructs a list with many elements', function () {
+            const list = LinkedList.from(1, 2, 3, 4, 5)
+            expect(list.toArray()).toEqual([1, 2, 3, 4, 5])
         })
     })
 })

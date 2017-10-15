@@ -24,6 +24,20 @@ export class LinkedList <T> {
         return val;
     }
 
+    public static toArray <T>(list:LinkedList<T>): T[] {
+        function recurse (node:ListNode<T> | null, arr:T[]):T[] {
+            if (node === null) {
+                return arr
+            }
+            arr.push(node.value)
+            return recurse(node.next, arr)
+        }
+        return recurse(list._head, []);
+    }
+    public toArray (): T[] {
+        return LinkedList.toArray(this)
+    }
+
     public static fromArray <T> (items:T[]):LinkedList<T> {
         function recurse (index:number):ListNode<T> | null {
             if (index >= items.length) {
@@ -126,7 +140,7 @@ export class LinkedList <T> {
         }
 
         const head = this._head;
-        if (head === null) {
+        if (head === null || this.length === 1) {
             return this;
         }
 

@@ -29,6 +29,19 @@ var LinkedList = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    LinkedList.toArray = function (list) {
+        function recurse(node, arr) {
+            if (node === null) {
+                return arr;
+            }
+            arr.push(node.value);
+            return recurse(node.next, arr);
+        }
+        return recurse(list._head, []);
+    };
+    LinkedList.prototype.toArray = function () {
+        return LinkedList.toArray(this);
+    };
     LinkedList.fromArray = function (items) {
         function recurse(index) {
             if (index >= items.length) {
@@ -116,7 +129,7 @@ var LinkedList = /** @class */ (function () {
             });
         }
         var head = this._head;
-        if (head === null) {
+        if (head === null || this.length === 1) {
             return this;
         }
         return new LinkedList(recurse(head, null), this.length);
