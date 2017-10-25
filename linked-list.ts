@@ -66,6 +66,21 @@ export class LinkedList <T> {
         return this._head === null;
     }
 
+    at(index: number): T | null {
+        if (index >= this.length || index < 0 || this._head === null) {
+            return null
+        }
+        function recurse (node:ListNode<T>, index:number, desired:number): T {
+            if (index === desired) {
+                return node.value
+            }
+
+            return recurse(node.next as ListNode<T>, index + 1, desired)
+        }
+
+        return recurse (this._head, 0, index)
+    }
+
     forEach (fn:(i:T)=>void): void {
         function recurse (node:MaybeNode<T>) {
             if (node) {
@@ -113,7 +128,7 @@ export class LinkedList <T> {
     }
 
     append (item: T):LinkedList<T> {
-        function recurse (node:MaybeNode<T>, end:T) {
+        function recurse (node:MaybeNode<T>, end:T):ListNode<T> {
             if (node === null) {
                 return {
                     value: end,
@@ -122,7 +137,7 @@ export class LinkedList <T> {
             }
             return {
                 value: node.value,
-                next:  node.next
+                next:  recurse(node.next, end)
             }
         }
 

@@ -47,4 +47,26 @@ describe('linked list', function () {
             expect(list.toArray()).toEqual([1, 2, 3, 4, 5])
         })
     })
+
+    describe('at', function () {
+        function listAt (x:number):number | null {
+            const list = LinkedList.from(1, 2, 3, 4, 5)
+            return list.at(x);
+        }
+        it('returns a the element at a given index', function () {
+            expect(listAt(3)).toBe(4)
+        })
+        it('returns null for indices before the first', function () {
+            expect(listAt(-1)).toBe(null)
+        })
+        it('returns null for indices after the last', function () {
+            expect(listAt(10)).toBe(null)
+        })
+    })
+
+    describe('forEach', function () {
+        it('calls a function with each element as an argument', function () {
+
+        })
+    })
 })

@@ -64,6 +64,18 @@ var LinkedList = /** @class */ (function () {
     LinkedList.prototype.empty = function () {
         return this._head === null;
     };
+    LinkedList.prototype.at = function (index) {
+        if (index >= this.length || index < 0 || this._head === null) {
+            return null;
+        }
+        function recurse(node, index, desired) {
+            if (index === desired) {
+                return node.value;
+            }
+            return recurse(node.next, index + 1, desired);
+        }
+        return recurse(this._head, 0, index);
+    };
     LinkedList.prototype.forEach = function (fn) {
         function recurse(node) {
             if (node) {
@@ -113,7 +125,7 @@ var LinkedList = /** @class */ (function () {
             }
             return {
                 value: node.value,
-                next: node.next
+                next: recurse(node.next, end)
             };
         }
         return new LinkedList(recurse(this._head, item), this.length);
