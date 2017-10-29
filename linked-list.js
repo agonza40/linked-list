@@ -141,7 +141,7 @@ var LinkedList = /** @class */ (function () {
             });
         }
         var head = this._head;
-        if (head === null || this.length === 1) {
+        if (this.length <= 1) {
             return this;
         }
         return new LinkedList(recurse(head, null), this.length);

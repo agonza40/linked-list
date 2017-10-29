@@ -157,7 +157,7 @@ export class LinkedList <T> {
         }
 
         const head = this._head;
-        if (head === null || this.length === 1) {
+        if (this.length <= 1) {
             return this;
         }
 
